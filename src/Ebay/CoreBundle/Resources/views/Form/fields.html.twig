@@ -1,0 +1,30 @@
+{% extends 'form_div_layout.html.twig' %}
+
+{% block form_widget_compound %}
+{% endblock %}
+
+
+{% block form_row %}
+    {% spaceless %}
+        <div class="form-group">
+
+
+            {{ form_label(form, "", { label_attr: { class: "col-lg-2 control-label" }} ) }}
+            {{ form_errors(form) }}
+            <div class="col-lg-10">
+                {{ form_widget(form, { attr: { class: "form-control" }} ) }}
+            </div>
+        </div>
+    {% endspaceless %}
+{% endblock form_row %}
+
+
+
+{% block submit_widget %}
+    {% spaceless %}
+        {% set type = type|default('submit') %}
+        <div class="col-lg-offset-2 col-lg-10">
+            {{ block('button_widget') }}
+        </div>
+    {% endspaceless %}
+{% endblock submit_widget %}

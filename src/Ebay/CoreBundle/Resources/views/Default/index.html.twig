@@ -1,0 +1,27 @@
+{% extends("EbayCoreBundle::layout.html.twig") %}
+
+{% block body %}
+    <h1>Welcome</h1>
+    <p>You ran {{ user.hostedSessions|length }} sessions</p>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Identity</th>
+            <th>Mood trend</th>
+            <th>&nbsp;</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for employee in user.employee %}
+            <tr>
+                <td>{{ employee.id }}</td>
+                <td>{{ employee.name }}</td>
+                <td>{{ moodTrend(employee, dateFrom) }}</td>
+                <td><a href="{{ path('session.new', { 'employeeId': employee.id }) }}">New session</a></td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+    </table>
+{% endblock %}

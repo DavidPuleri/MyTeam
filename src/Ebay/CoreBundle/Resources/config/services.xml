@@ -1,0 +1,48 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <parameters>
+        <parameter key="controller.default.class">Ebay\CoreBundle\Controller\DefaultController</parameter>
+        <parameter key="entity.person.class">Ebay\CoreBundle\Entity\Person</parameter>
+        <parameter key="entity.session.class">Ebay\CoreBundle\Entity\Session</parameter>
+        <parameter key="repository.person.class">Ebay\CoreBundle\Repositories\PersonRepository</parameter>
+        <parameter key="repository.session.class">Ebay\CoreBundle\Repositories\SessionRepository</parameter>
+        <parameter key="twig.extensions">Ebay\CoreBundle\Twig\ViewExtension</parameter>
+        <parameter key="algorithm.mood">Ebay\CoreBundle\Service\MoodAlgorithm</parameter>
+    </parameters>
+
+    <services>
+        <service id="controller.default" class="%controller.default.class%">
+            <argument type="service" id="security.context"></argument>
+            <argument type="service" id="form.factory"></argument>
+            <argument type="service" id="repository.person"></argument>
+            <argument type="service" id="router"></argument>
+            <argument type="service" id="doctrine.orm.entity_manager"></argument>
+        </service>
+
+        <service id="algorithm.mood" class="%algorithm.mood%">
+            <argument type="service" id="repository.session"/>
+        </service>
+        <service id="view.extension" class="%twig.extensions%">
+            <tag name="twig.extension"/>
+            <argument type="service" id="algorithm.mood"/>
+        </service>
+
+        <service id="repository.person" class="%repository.person.class%"
+                 factory-service="doctrine.orm.entity_manager"
+                 factory-method="getRepository">
+            <argument>%entity.person.class%</argument>
+        </service>
+
+        <service id="repository.session" class="%repository.person.class%"
+                 factory-service="doctrine.orm.entity_manager"
+                 factory-method="getRepository">
+            <argument>%entity.session.class%</argument>
+        </service>
+
+    </services>
+
+</container>
